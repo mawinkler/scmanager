@@ -41,6 +41,17 @@ triggerscan:
     POLL_RETRIES: 150
   stage: scan
   script:
+    - echo $DSSC_USERNAME
+    - echo $DSSC_PASSWORD
+    - echo $DSSC_SERVICE
+    - echo $CI_REGISTRY
+    - echo $CI_PROJECT_PATH
+    - echo $CI_REGISTRY_USER
+    - echo $CI_REGISTRY_TOKEN
+    - echo $CI_REGISTRY_IMAGE
+    - docker pull scmanager:latest
+    - docker run scmanager
+    - echo scmanager done
     - echo "Adding image to Smart Check engine at ${DSSC_SERVICE}"
     # Get bearer token from Smart Check
     - TOKEN=$(curl -sk -X POST $DSSC_SERVICE/api/sessions -H 'content-type:application/json' -H 'x-argus-api-version:2017-10-16' -d '{"user":{"userid":"'$DSSC_USERNAME'","password":"'$DSSC_PASSWORD'"}}' | jq -r '.token')
@@ -70,3 +81,4 @@ triggerscan:
     - tags
   tags:
     - docker
+
