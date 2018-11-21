@@ -49,8 +49,8 @@ triggerscan:
     - echo $CI_REGISTRY_USER
     - echo $CI_REGISTRY_TOKEN
     - echo $CI_REGISTRY_IMAGE
-    - docker pull scmanager:latest
-    - docker run scmanager
+#    - docker pull scmanager:latest
+#    - docker run scmanager
     - echo scmanager done
     - echo "Adding image to Smart Check engine at ${DSSC_SERVICE}"
     # Get bearer token from Smart Check
