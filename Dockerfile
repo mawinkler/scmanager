@@ -6,6 +6,7 @@ RUN mkdir /app
 
 COPY ./scmanager.sh /app
 WORKDIR /app
+RUN chmod +x /app/scmanager.sh
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["scmanager.sh"]
