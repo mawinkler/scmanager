@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 POLL_INTERVAL=2
 POLL_RETRIES=150
 STATUS=""
