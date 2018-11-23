@@ -8,5 +8,5 @@ COPY ./scmanager.sh /app
 WORKDIR /app
 RUN chmod +x /app/scmanager.sh
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["scmanager.sh"]
