@@ -125,6 +125,8 @@ def evaluate_findings(findings):
     return 'failed' if total > 0 else 'success'
 
 def main():
-    run_module()
+    if (run_module()):
+        sys.exit(-1)
+
 if __name__ == '__main__':
     main()
