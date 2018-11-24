@@ -14,9 +14,8 @@ import time
 
 def run_module():
 
-    print(os.environ)
     print("Adding image to Smart Check engine at " + os.environ["DSSC_SERVICE"])
-    print("Get bearer token from Smart Check")
+
     url = os.environ["DSSC_SERVICE"] + "/api/sessions"
     data = { "user": { "userid": os.environ["DSSC_USERNAME"],
                        "password": os.environ["DSSC_PASSWORD"]
@@ -77,16 +76,16 @@ def run_module():
     retries = 1
     print("Wait for scan completed")
     while (status != "completed-with-findings" and status != "completed-no-findings" and status != "failed" and retries < poll_retries):
-      time.sleep(poll_interval)
-      print(".")
-      url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
-      data = {}
-      post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
-                      "authorization": "Bearer " + response_token
-                    }
-      response = requests.get(url, data=json.dumps(data), headers=post_header, verify=False).json()
-      status = response["status"]
-      retries += 1
+        time.sleep(poll_interval)
+        print(".")
+        url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
+        data = {}
+        post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
+                        "authorization": "Bearer " + response_token
+                      }
+        response = requests.get(url, data=json.dumps(data), headers=post_header, verify=False).json()
+        status = response["status"]
+        retries += 1
 
     url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
     data = { }
@@ -101,6 +100,7 @@ def run_module():
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
     status = evaluate_findings(response['findings'])
+
     if (status == 'success'):
         return 0
     else:
