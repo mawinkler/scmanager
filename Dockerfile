@@ -1,12 +1,9 @@
-FROM ubuntu:18.04
+FROM python:3
 
-RUN apt-get update
-RUN apt-get install -y curl jq
+RUN pip install requests
 RUN mkdir /app
 
-COPY ./scmanager.sh /app
+COPY ./scmanager.py /app
 WORKDIR /app
-RUN chmod +x /app/scmanager.sh
 
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["scmanager.sh"]
+CMD ["python", "/app/scmanager.py"]
