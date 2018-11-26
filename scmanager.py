@@ -85,10 +85,10 @@ def run_module():
 
     status = ""
     retries = 1
-    print("Wait for scan completed")
+    print("Wait for scan completed", flush=True)
     while (status != "completed-with-findings" and status != "completed-no-findings" and status != "failed" and retries < os.environ["POLL_RETRIES"]):
         time.sleep(os.environ["POLL_INTERVAL"])
-        print(".")
+        print('.', end='', flush=True)
         url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
         data = {}
         post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
