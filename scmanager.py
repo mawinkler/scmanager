@@ -121,22 +121,22 @@ def run_module():
 def evaluate_findings(findings):
     """Evaluate the findings of the scan against local policy."""
     total = 0
-    if os.environ["NO_MALWARE"]:
+    if os.environ.get('NO_MALWARE', true):
         total += findings.get('malware', 0)
     print('Malware : %d' % (findings.get('malware', 0)), flush=True)
-    if os.environ["NO_DEFCON1"]:
+    if os.environ.get('NO_DEFCON1', true):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
     print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
-    if os.environ["NO_CRITICAL"]:
+    if os.environ.get('NO_CRITICAL', true):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
     print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
-    if os.environ["NO_HIGH"]:
+    if os.environ.get('NO_HIGH', true):
         total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
     print('High    : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0)), flush=True)
-    if os.environ["NO_MEDIUM"]:
+    if os.environ.get('NO_MEDIUM', false):
         total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
     print('Medium  : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)), flush=True)
-    if os.environ["NO_LOW"]:
+    if os.environ.get('NO_LOW', false):
         total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
     print('Low     : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)), flush=True)
 
