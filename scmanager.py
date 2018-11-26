@@ -126,19 +126,20 @@ def evaluate_findings(findings):
     print('Malware : %d (accepted=%s)' % (findings.get('malware', 0), str(os.environ.get('NO_MALWARE', True))), flush=True)
     if os.environ.get('NO_DEFCON1', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
-    print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
+    print('Defcon1 : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0), str(os.environ.get('NO_DEFCON1', True))), flush=True)
     if os.environ.get('NO_CRITICAL', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
-    print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
+    print('Critical: %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0), str(os.environ.get('NO_CRITICAL', True))), flush=True)
     if os.environ.get('NO_HIGH', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
     print('High    : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0), str(os.environ.get('NO_HIGH', True))), flush=True)
     if os.environ.get('NO_MEDIUM', False):
         total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
-    print('Medium  : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)), flush=True)
+    print('Medium  : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0), str(os.environ.get('NO_MEDIUM', False))), flush=True)
     if os.environ.get('NO_LOW', False):
         total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
-    print('Low     : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)), flush=True)
+    print('Low     : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0), str(os.environ.get('NO_LOW', False))), flush=True)
+    print('Criticality: %d' % (total))
 
     return 'failed' if total > 0 else 'success'
 
