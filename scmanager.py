@@ -17,8 +17,7 @@ import time
 
 def run_module():
 
-    print("Adding image to Smart Check engine at " + os.environ["DSSC_SERVICE"])
-
+    print("Adding image to Smart Check engine at " + os.environ["DSSC_SERVICE"], flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/sessions"
     data = { "user": { "userid": os.environ["DSSC_USERNAME"],
                        "password": os.environ["DSSC_PASSWORD"]
@@ -98,6 +97,7 @@ def run_module():
         status = response["status"]
         retries += 1
 
+    print("\nQuery Report", flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
     data = { }
     post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
@@ -110,6 +110,7 @@ def run_module():
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
+    print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
 
     if (status == 'success'):
@@ -120,18 +121,24 @@ def run_module():
 def evaluate_findings(findings):
     """Evaluate the findings of the scan against local policy."""
     total = 0
-    total += findings.get('malware', 0)
-    print('Malware : %d' % (findings.get('malware', 0)))
-    total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
-    print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)))
-    total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
-    print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)))
-    total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
-    print('High    : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0)))
-#    total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
-    print('Medium  : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)))
-#    total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
-    print('Low     : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)))
+    if os.environ["NO_MALWARE"]:
+        total += findings.get('malware', 0)
+    print('Malware : %d' % (findings.get('malware', 0)), flush=True)
+    if os.environ["NO_DEFCON1"]:
+        total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
+    print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
+    if os.environ["NO_CRITICAL"]:
+        total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
+    print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
+    if os.environ["NO_HIGH"]:
+        total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
+    print('High    : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0)), flush=True)
+    if os.environ["NO_MEDIUM"]:
+        total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
+    print('Medium  : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)), flush=True)
+    if os.environ["NO_LOW"]:
+        total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
+    print('Low     : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)), flush=True)
 
     return 'failed' if total > 0 else 'success'
 
