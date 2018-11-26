@@ -35,16 +35,24 @@ def run_module():
 
     response_token = response['token']
 
+    reg_username = ""
+    reg_password = ""
+    if os.environ["CI_DEPLOY_USER"]:
+        reg_username = os.environ["CI_DEPLOY_USER"]
+    else:
+        reg_username = os.environ["CI_REGISTRY_USER"]
+    if os.environ["CI_DEPLOY_PASSWORD"]:
+        reg_password = os.environ["CI_DEPLOY_PASSWORD"]
+    else:
+        reg_password = os.environ["CI_REGISTRY_PASSWORD"]
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
              "source": { "type": "docker",
                          "registry": os.environ["CI_REGISTRY"],
                          "repository": os.environ["CI_PROJECT_PATH"],
                          "tag": "latest",
-                         "credentials": { "username": "gitlab+deploy-token-1",
-                                          "password": "DCy1PaxcjfLVyuMtzRne"
-#                         "credentials": { "username": os.environ["CI_REGISTRY_USER"],
-#                                          "password": os.environ["CI_REGISTRY_TOKEN"]
+                         "credentials": { "username": reg_username,
+                                          "password": reg_password
                                         }
                        }
            }
@@ -75,13 +83,11 @@ def run_module():
 
 #    response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
-    poll_interval = 2
-    poll_retries = 150
     status = ""
     retries = 1
     print("Wait for scan completed")
-    while (status != "completed-with-findings" and status != "completed-no-findings" and status != "failed" and retries < poll_retries):
-        time.sleep(poll_interval)
+    while (status != "completed-with-findings" and status != "completed-no-findings" and status != "failed" and retries < os.environ["POLL_RETRIES"]):
+        time.sleep(os.environ["POLL_INTERVAL"])
         print(".")
         url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
         data = {}
