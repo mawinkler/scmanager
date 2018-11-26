@@ -38,8 +38,10 @@ def run_module():
                          "registry": os.environ["CI_REGISTRY"],
                          "repository": os.environ["CI_PROJECT_PATH"],
                          "tag": "latest",
-                         "credentials": { "username": os.environ["CI_REGISTRY_USER"],
-                                          "password": os.environ["CI_REGISTRY_TOKEN"]
+                         "credentials": { "username": "gitlab+deploy-token-1"],
+                                          "password": "DCy1PaxcjfLVyuMtzRne"
+#                         "credentials": { "username": os.environ["CI_REGISTRY_USER"],
+#                                          "password": os.environ["CI_REGISTRY_TOKEN"]
                                         }
                        }
            }
