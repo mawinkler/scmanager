@@ -3,6 +3,9 @@
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 import requests
 import json
 import simplejson
