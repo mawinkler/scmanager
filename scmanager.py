@@ -36,6 +36,7 @@ def run_module():
 
     reg_username = ""
     reg_password = ""
+    # .get... FIX
     if os.environ["CI_DEPLOY_USER"]:
         reg_username = os.environ["CI_DEPLOY_USER"]
     else:
@@ -123,22 +124,28 @@ def evaluate_findings(findings):
     total = 0
     if os.environ.get('NO_MALWARE', True):
         total += findings.get('malware', 0)
-    print('Malware : %d (accepted=%s)' % (findings.get('malware', 0), str(os.environ.get('NO_MALWARE', True))), flush=True)
+    print('Malware : %d (not accepted=%s)' % (findings.get('malware', 0), str(os.environ.get('NO_MALWARE', ''))), flush=True)
+
     if os.environ.get('NO_DEFCON1', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
-    print('Defcon1 : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0), str(os.environ.get('NO_DEFCON1', True))), flush=True)
+    print('Defcon1 : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0), str(os.environ.get('NO_DEFCON1', ''))), flush=True)
+
     if os.environ.get('NO_CRITICAL', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
-    print('Critical: %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0), str(os.environ.get('NO_CRITICAL', True))), flush=True)
+    print('Critical: %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0), str(os.environ.get('NO_CRITICAL', ''))), flush=True)
+
     if os.environ.get('NO_HIGH', True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
-    print('High    : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0), str(os.environ.get('NO_HIGH', True))), flush=True)
+    print('High    : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0), str(os.environ.get('NO_HIGH', ''))), flush=True)
+
     if os.environ.get('NO_MEDIUM', False):
         total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
-    print('Medium  : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0), str(os.environ.get('NO_MEDIUM', False))), flush=True)
+    print('Medium  : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0), str(os.environ.get('NO_MEDIUM', ''))), flush=True)
+
     if os.environ.get('NO_LOW', False):
         total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
-    print('Low     : %d (accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0), str(os.environ.get('NO_LOW', False))), flush=True)
+    print('Low     : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0), str(os.environ.get('NO_LOW', ''))), flush=True)
+
     print('Criticality: %d' % (total))
 
     return 'failed' if total > 0 else 'success'
