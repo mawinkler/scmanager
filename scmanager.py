@@ -107,8 +107,11 @@ def run_module():
     response_txt = requests.get(url, data=json.dumps(data), headers=post_header, verify=False)
     response = requests.get(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
+    print('....................', flush=True)
     print(response_txt, flush=True)
+    print('....................', flush=True)
     print(response, flush=True)
+    print('....................', flush=True)
 
     # Error handling
     if 'message' in response:
@@ -117,7 +120,7 @@ def run_module():
 
     # export scan report
     with open('scan_report.json', 'w') as f:
-        json.dump(json.dumps(response, indent=2), f)
+        json.dump(json.dumps(response_txt, indent=2), f)
 
     print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
