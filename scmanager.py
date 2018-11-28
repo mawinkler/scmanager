@@ -120,7 +120,7 @@ def run_module():
 
     # export scan report
     with open('scan_report.json', 'w') as f:
-        json.dump(json.dumps(response_txt, indent=2), f)
+        json.dump(json.dumps(json.loads(response_txt), indent=2), f)
 
     print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
