@@ -134,6 +134,8 @@ def evaluate_findings(findings):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
     print('Critical: %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0), str(os.environ.get('NO_CRITICAL', ''))), flush=True)
 
+    print('os.environ.get(NO_HIGH, True) = %s' % (os.environ.get('NO_HIGH', True)))
+    print('os.environ.get(NO_HIGH) = %s' % (os.environ.get('NO_HIGH')))
     if (os.environ.get('NO_HIGH', True) == 'True'):
         total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
     print('High    : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0), str(os.environ.get('NO_HIGH', ''))), flush=True)
