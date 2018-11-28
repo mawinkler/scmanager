@@ -112,9 +112,8 @@ def run_module():
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
     # export scan report
-    parsed = json.loads(response)
     with open('scan_report.json', 'w') as f:
-        json.dump(json.dumps(parsed, indent=2, sort_keys=True), f)
+        json.dump(json.dumps(response, indent=2, sort_keys=True), f)
 
     print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
