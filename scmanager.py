@@ -104,14 +104,7 @@ def run_module():
     post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
                     "authorization": "Bearer " + response_token
                   }
-    response_txt = requests.get(url, data=json.dumps(data), headers=post_header, verify=False)
     response = requests.get(url, data=json.dumps(data), headers=post_header, verify=False).json()
-
-    print('....................', flush=True)
-    print(response_txt, flush=True)
-    print('....................', flush=True)
-    print(response, flush=True)
-    print('....................', flush=True)
 
     # Error handling
     if 'message' in response:
@@ -120,7 +113,7 @@ def run_module():
 
     # export scan report
     with open('scan_report.json', 'w') as f:
-        json.dump(json.dumps(json.loads(response_txt), indent=2), f)
+        json.dump(response, f)
 
     print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
