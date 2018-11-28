@@ -104,7 +104,11 @@ def run_module():
     post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
                     "authorization": "Bearer " + response_token
                   }
+    response_txt = requests.get(url, data=json.dumps(data), headers=post_header, verify=False)
     response = requests.get(url, data=json.dumps(data), headers=post_header, verify=False).json()
+
+    print(response_txt, flush=True)
+    print(response, flush=True)
 
     # Error handling
     if 'message' in response:
