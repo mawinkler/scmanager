@@ -111,6 +111,10 @@ def run_module():
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
+    # export scan report
+    with open('scan_report.json', 'w') as f:
+        json.dump(json.dumps(response), f)
+
     print("Evaluating finding", flush=True)
     status = evaluate_findings(response['findings'])
 
@@ -124,27 +128,27 @@ def evaluate_findings(findings):
     total = 0
     if (os.environ.get('NO_MALWARE', True) == True):
         total += findings.get('malware', 0)
-    print('Malware : %d (not accepted=%s)' % (findings.get('malware', 0)), flush=True)
+    print('Malware : %d' % (findings.get('malware', 0)), flush=True)
 
     if (os.environ.get('NO_DEFCON1', True) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
-    print('Defcon1 : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
+    print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
 
     if (os.environ.get('NO_CRITICAL', True == True)):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
-    print('Critical: %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
+    print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
 
     if (os.environ.get('NO_HIGH', True) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('high', 0)
-    print('High    : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0)), flush=True)
+    print('High    : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('high', 0)), flush=True)
 
     if (os.environ.get('NO_MEDIUM', False) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)
-    print('Medium  : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)), flush=True)
+    print('Medium  : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('medium', 0)), flush=True)
 
     if (os.environ.get('NO_LOW', False) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('low', 0)
-    print('Low     : %d (not accepted=%s)' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)), flush=True)
+    print('Low     : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('low', 0)), flush=True)
 
     print('Criticality: %d' % (total))
 
