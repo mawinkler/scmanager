@@ -29,7 +29,7 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
-        print("Authentication response: " + response['message'])
+        print("Authentication response: " + response['message'], flush=True))
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
@@ -65,7 +65,7 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
-        print("Scan request response: " + response['message'])
+        print("Scan request response: " + response['message'], flush=True))
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
@@ -86,7 +86,8 @@ def run_module():
         status = response["status"]
         retries += 1
 
-    print("\nQuery Report", flush=True)
+    print("\nFinal Scan Status: " + status, flush=True)
+    print("Query Report", flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
     data = { }
     post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
@@ -96,7 +97,7 @@ def run_module():
 
     # Error handling
     if 'message' in response:
-        print("Query report response: " + response['message'])
+        print("Query report response: " + response['message'], flush=True))
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
