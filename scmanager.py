@@ -29,7 +29,7 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
-        print("Authentication response: " + response['message'], flush=True))
+        print("Authentication response: " + response['message'], flush=True)
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
@@ -65,7 +65,7 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
-        print("Scan request response: " + response['message'], flush=True))
+        print("Scan request response: " + response['message'], flush=True)
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
@@ -97,7 +97,7 @@ def run_module():
 
     # Error handling
     if 'message' in response:
-        print("Query report response: " + response['message'], flush=True))
+        print("Query report response: " + response['message'], flush=True)
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
