@@ -29,6 +29,7 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
+        print("Authentication response: " + response['message'])
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
@@ -64,24 +65,11 @@ def run_module():
     response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     if 'message' in response:
+        print("Scan request response: " + response['message'])
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
     response_scanId = response['id']
-
-#    url = os.environ["DSSC_SERVICE"] + "/api/webhooks"
-#    data = { "name": "alert-scan-complete-2",
-#             "events": ["scan-completed"],
-#             "active": True,
-#             "hookurl": "http://scantoslack/api/scans"
-#           }
-#    post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
-#                    "x-argus-api-version": "2017-11-15",
-#                    "authorization": "Bearer " + response_token,
-#                    "cache-control": "no-cache"
-#                  }
-
-#    response = requests.post(url, data=json.dumps(data), headers=post_header, verify=False).json()
 
     status = ""
     retries = 1
@@ -108,6 +96,7 @@ def run_module():
 
     # Error handling
     if 'message' in response:
+        print("Query report response: " + response['message'])
         if response['message'] == "Invalid DSSC credentials":
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
