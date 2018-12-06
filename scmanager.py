@@ -87,6 +87,10 @@ def run_module():
         retries += 1
 
     print("\nFinal Scan Status: " + status, flush=True)
+    if status == "failed":
+        # Scan failed
+        return 2
+
     print("Query Report", flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
     data = { }
