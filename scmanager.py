@@ -46,7 +46,6 @@ def run_module():
         reg_password = os.environ["CI_DEPLOY_PASSWORD"]
     else:
         reg_password = os.environ["CI_REGISTRY_PASSWORD"]
-    print("reg_username=" + reg_username + " reg_password=" + reg_password, flush=True)
 
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
