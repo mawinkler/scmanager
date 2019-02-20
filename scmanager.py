@@ -121,6 +121,9 @@ def run_module():
 def evaluate_findings(findings):
     """Evaluate the findings of the scan against local policy."""
     total = 0
+
+    print(findings, flush=True)
+
     if (os.environ.get('NO_MALWARE', True) == True):
         total += findings.get('malware', 0)
     print('Malware : %d' % (findings.get('malware', 0)), flush=True)
