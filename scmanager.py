@@ -129,8 +129,8 @@ def evaluate_findings(findings):
     print('Malware : %d' % (findings.get('malware', 0)), flush=True)
 
     if (os.environ.get('NO_CONTENT', True) == True):
-        total += findings['content'].get('total', {}).get('high', 0)
-    print('Content : %d' % (findings['content'].get('total', {}).get('high', 0)), flush=True)
+        total += findings['contents'].get('total', {}).get('high', 0)
+    print('Content : %d' % (findings['contents'].get('total', {}).get('high', 0)), flush=True)
 
     if (os.environ.get('NO_DEFCON1', True) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
