@@ -17,7 +17,7 @@ import time
 
 def run_module():
 
-    print("Adding image to Smart Check engine at " + os.environ["DSSC_SERVICE"], flush=True)
+    print("Authenticating to Smart Check engine at " + os.environ["DSSC_SERVICE"], flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/sessions"
     data = { "user": { "userid": os.environ["DSSC_USERNAME"],
                        "password": os.environ["DSSC_PASSWORD"]
@@ -37,6 +37,7 @@ def run_module():
 
     reg_username = ""
     reg_password = ""
+    reg_image = ""
     # .get... FIX
     if os.environ["CI_DEPLOY_USER"]:
         reg_username = os.environ["CI_DEPLOY_USER"]
@@ -46,12 +47,19 @@ def run_module():
         reg_password = os.environ["CI_DEPLOY_PASSWORD"]
     else:
         reg_password = os.environ["CI_REGISTRY_PASSWORD"]
+    if os.environ["TARGET_IMAGE"]:
+        reg_image = os.environ["CI_PROJECT_PATH"] + "/" + os.environ["TARGET_IMAGE"]
+        if os.environ["TARGET_IMAGE_TAG"]:
+            reg_image += ":" + os.environ["TARGET_IMAGE_TAG"]
+    else
+        reg_image = os.environ["CI_PROJECT_PATH"]
 
+    print("Initiating scan for " + os.environ["CI_REGISTRY"]/reg_image, flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
              "source": { "type": "docker",
                          "registry": os.environ["CI_REGISTRY"],
-                         "repository": os.environ["CI_PROJECT_PATH"],
+                         "repository": reg_image,
                          "tag": "latest",
                          "credentials": { "username": reg_username,
                                           "password": reg_password
