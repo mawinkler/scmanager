@@ -38,7 +38,8 @@ def run_module():
     reg_username = ""
     reg_password = ""
     reg_image = ""
-    # .get... FIX
+    reg_image_tag = ""
+
     if os.environ["CI_DEPLOY_USER"]:
         reg_username = os.environ["CI_DEPLOY_USER"]
     else:
@@ -49,18 +50,20 @@ def run_module():
         reg_password = os.environ["CI_REGISTRY_PASSWORD"]
     if os.environ["TARGET_IMAGE"]:
         reg_image = os.environ["CI_PROJECT_PATH"] + "/" + os.environ["TARGET_IMAGE"]
-        if os.environ["TARGET_IMAGE_TAG"]:
-            reg_image += ":" + os.environ["TARGET_IMAGE_TAG"]
     else:
         reg_image = os.environ["CI_PROJECT_PATH"]
+    if os.environ["TARGET_IMAGE_TAG"]:
+        reg_image_tag = os.environ["TARGET_IMAGE_TAG"]
+    else:
+        reg_image_tag = "latest"
 
-    print("Initiating scan for " + os.environ["CI_REGISTRY"] + "/" + reg_image, flush=True)
+    print("Initiating scan for " + os.environ["CI_REGISTRY"] + "/" + reg_image + ":" + reg_image_tag, flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
              "source": { "type": "docker",
                          "registry": os.environ["CI_REGISTRY"],
                          "repository": reg_image,
-                         "tag": "latest",
+                         "tag": reg_image_tag,
                          "credentials": { "username": reg_username,
                                           "password": reg_password
                                         }
