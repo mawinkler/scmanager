@@ -54,7 +54,7 @@ def run_module():
     else:
         reg_image = os.environ["CI_PROJECT_PATH"]
 
-    print("Initiating scan for " + os.environ["CI_REGISTRY"]/reg_image, flush=True)
+    print("Initiating scan for " + os.environ["CI_REGISTRY"] + "/" + reg_image, flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
              "source": { "type": "docker",
