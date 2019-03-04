@@ -51,7 +51,7 @@ def run_module():
         reg_image = os.environ["CI_PROJECT_PATH"] + "/" + os.environ["TARGET_IMAGE"]
         if os.environ["TARGET_IMAGE_TAG"]:
             reg_image += ":" + os.environ["TARGET_IMAGE_TAG"]
-    else
+    else:
         reg_image = os.environ["CI_PROJECT_PATH"]
 
     print("Initiating scan for " + os.environ["CI_REGISTRY"]/reg_image, flush=True)
