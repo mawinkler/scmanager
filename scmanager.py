@@ -82,6 +82,7 @@ def run_module():
             raise ValueError("Invalid DSSC credentials or SmartCheck not available")
 
     response_scanId = response['id']
+    print("Scan ID: " + response_scanId, flush=True)
 
     status = ""
     retries = 1
