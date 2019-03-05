@@ -48,14 +48,20 @@ def run_module():
         reg_password = os.environ["CI_DEPLOY_PASSWORD"]
     else:
         reg_password = os.environ["CI_REGISTRY_PASSWORD"]
-    if os.environ["TARGET_IMAGE"]:
-        reg_image = os.environ["CI_PROJECT_PATH"] + "/" + os.environ["TARGET_IMAGE"]
-    else:
-        reg_image = os.environ["CI_PROJECT_PATH"]
-    if os.environ["TARGET_IMAGE_TAG"]:
-        reg_image_tag = os.environ["TARGET_IMAGE_TAG"]
-    else:
-        reg_image_tag = "latest"
+
+    reg_image = os.environ["CI_PROJECT_PATH"]
+    try:
+        if os.environ["TARGET_IMAGE"]:
+            reg_image = os.environ["CI_PROJECT_PATH"] + "/" + os.environ["TARGET_IMAGE"]
+    except KeyError:
+        print("TARGET_IMAGE not set, defaulting to CI_PROJECT_PATH", flush=True)
+
+    reg_image_tag = "latest"
+    try:
+        if os.environ["TARGET_IMAGE_TAG"]:
+            reg_image_tag = os.environ["TARGET_IMAGE_TAG"]
+    except KeyError:
+        print("TARGET_IMAGE_TAG not set, defaulting to latest", flush=True)
 
     print("Initiating scan for " + os.environ["CI_REGISTRY"] + "/" + reg_image + ":" + reg_image_tag, flush=True)
     url = os.environ["DSSC_SERVICE"] + "/api/scans"
