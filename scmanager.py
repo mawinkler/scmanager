@@ -17,8 +17,8 @@ import time
 
 def run_module():
 
-    print("Authenticating to Smart Check engine at " + os.environ["DSSC_SERVICE"], flush=True)
-    url = os.environ["DSSC_SERVICE"] + "/api/sessions"
+    print("Authenticating to Smart Check engine at https://" + os.environ["DSSC_SERVICE"], flush=True)
+    url = "https://" + os.environ["DSSC_SERVICE"] + "/api/sessions"
     data = { "user": { "userid": os.environ["DSSC_USERNAME"],
                        "password": os.environ["DSSC_PASSWORD"]
                      }
@@ -64,7 +64,7 @@ def run_module():
         print("TARGET_IMAGE_TAG not set, defaulting to latest", flush=True)
 
     print("Initiating scan for " + os.environ["CI_REGISTRY"] + "/" + reg_image + ":" + reg_image_tag, flush=True)
-    url = os.environ["DSSC_SERVICE"] + "/api/scans"
+    url = "https://" + os.environ["DSSC_SERVICE"] + "/api/scans"
     data = { "name": "test",
              "source": { "type": "docker",
                          "registry": os.environ["CI_REGISTRY"],
@@ -96,7 +96,7 @@ def run_module():
     while (status != "completed-with-findings" and status != "completed-no-findings" and status != "failed" and retries < int(os.environ["POLL_RETRIES"])):
         time.sleep(int(os.environ["POLL_INTERVAL"]))
         print('.', end='', flush=True)
-        url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
+        url = "https://" + os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
         data = {}
         post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
                         "authorization": "Bearer " + response_token
@@ -111,7 +111,7 @@ def run_module():
         return 2
 
     print("Query Report", flush=True)
-    url = os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
+    url = "https://" + os.environ["DSSC_SERVICE"] + "/api/scans/" + response_scanId
     data = { }
     post_header = { "Content-type": "application/vnd.com.trendmicro.argus.webhook.v1+json",
                     "authorization": "Bearer " + response_token
