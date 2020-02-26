@@ -154,7 +154,7 @@ def evaluate_findings(findings):
         total += findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)
     print('Defcon1 : %d' % (findings['vulnerabilities'].get('unresolved', {}).get('defcon1', 0)), flush=True)
 
-    if (os.environ.get('NO_CRITICAL', True == True)):
+    if (os.environ.get('NO_CRITICAL', True) == True):
         total += findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)
     print('Critical: %d' % (findings['vulnerabilities'].get('unresolved', {}).get('critical', 0)), flush=True)
 
